@@ -77,7 +77,13 @@ cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Installing MongoDB client"
 
-mongosh --host mongodb.daws85s.fun </app/db/master-data.js &>>$LOG_FILE
-VALIDATE $? "Loading Data into MongoDB"
+STATUS=$(mongosh --host mongodb.daws85s.fun --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+if [ $STATUS -lt 0 ]
+then
+    mongosh --host mongodb.daws85s.fun </app/db/master-data.js &>>$LOG_FILE
+    VALIDATE $? "Loading Data into MongoDB"
+else
+    echo -e "Data is already loaded ... $Y SKIPPING $N"
+fi        
 
 
