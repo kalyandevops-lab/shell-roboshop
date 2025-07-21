@@ -80,7 +80,7 @@ VALIDATE $? "Starting shipping"
 dnf install mysql -y &>>$LOG_FILE
 VALIDATE $? "Installing MYSQL"
 
-mysql -h mysql.daws85s.fun -u root -p$MYSQL_ROOT_PASSWORD -e 'use cities'
+mysql -h mysql.daws85s.fun -u root -p$MYSQL_ROOT_PASSWORD -e 'use cities' &>>$LOG_FILE
 if [ $? -ne 0 ]
 then
     mysql -h mysql.daws85s.fun -uroot -p$MYSQL_ROOT_PASSWORD < /app/db/schema.sql &>>$LOG_FILE
